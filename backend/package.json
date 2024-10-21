@@ -1,0 +1,24 @@
+{
+  "name": "nweb-lab1",
+  "version": "1.0.0",
+  "description": "Napredni razvoj programske potpore za web - 1. laboratorijska vježba",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niksa-Brala/NWEB-lab1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Niksa-Brala/NWEB-lab1/issues"
+  },
+  "homepage": "https://github.com/Niksa-Brala/NWEB-lab1#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2",
+    "nodemon": "^3.1.7"
+  }
+}
