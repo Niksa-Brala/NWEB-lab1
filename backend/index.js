@@ -22,17 +22,17 @@ app.get("/tickets", async (req, res) => {
 app.post('/newTicket', async (req, res) => {
     try {
         // Izvadi podatke iz tijela zahtjeva
-        const { vat_id, firstname, lastname } = req.body;
+        const { vatin, firstname, lastname } = req.body;
         
         // Provjeri jesu li svi potrebni podaci dostavljeni
-        if (!vat_id || !firstname || !lastname) {
-            return res.status(400).json({ error: "Molimo ispunite sva polja (vat_id, firstname, lastname)." });
+        if (!vatin || !firstname || !lastname) {
+            return res.status(400).json({ error: "Molimo ispunite sva polja (vatin, firstname, lastname)." });
         }
 
         // Kreiraj upit za unos nove ulaznice u bazu podataka
         const newTicket = await pool.query(
-            "INSERT INTO tickets (vat_id, firstname, lastname) VALUES ($1, $2, $3) RETURNING *",
-            [vat_id, firstname, lastname]
+            "INSERT INTO tickets (vatin, firstname, lastname) VALUES ($1, $2, $3) RETURNING *",
+            [vatin, firstname, lastname]
         );
 
         // Vrati novokreiranu ulaznicu kao odgovor
