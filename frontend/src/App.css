@@ -13,6 +13,31 @@
   }
 }
 
+.nav-ul {
+  padding: 5px;
+  margin: 0px;
+  background-color: cadetblue;
+}
+
+.nav-ul li {
+  display: inline-block;
+  padding: 10px;
+}
+
+.nav-ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  background-color: cadetblue;
+  width: 100%;
+  text-align: center;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
