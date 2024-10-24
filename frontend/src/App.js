@@ -3,6 +3,7 @@ import Nav from './components/Nav';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './components/Footer'
 import React, { useEffect, useState } from 'react';
+import TicketPage from './TicketPage'; // Komponenta za prikaz ulaznice
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path='/newTicket' element={<h1>New ticket</h1>}/>
           <Route path='/login' element={<h1>Log in</h1>}/>
           <Route path='/myTickets' element={<h1>My tickets</h1>}/>
+          <Route path="/:ticket_id" element={<TicketPage />} />
         </Routes>
       </BrowserRouter>
       <Footer />

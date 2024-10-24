@@ -3,10 +3,32 @@ const pool = require('./db');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const qrcode = require('qrcode');
+const dotenv = require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json())
+
+// Middleware to validate JWT token
+const authenticateToken = (req, res, next) => {
+    // Get the token from the authorization header
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    // If no token is provided, return an error
+    if (!token) return res.status(401).json({ error: 'Access token missing' });
+
+    // Verify the token
+    jwt.verify(token, process.env.AUTH0_PUBLIC_KEY, { algorithms: ['RS256'] }, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Invalid token' });
+        
+        // Attach the decoded user to the request
+        req.user = user;
+
+        // Proceed to the next middleware/route handler
+        next();
+    });
+};
 
 app.get("/", async (req, res) => {
     try {
@@ -20,7 +42,7 @@ app.get("/", async (req, res) => {
 });
 
 // Kreiraj POST endpoint za dodavanje nove ulaznice
-app.post('/newTicket', async (req, res) => {
+app.post('/newTicket', authenticateToken, async (req, res) => {
     try {
         // Izvadi podatke iz tijela zahtjeva
         const { vatin, firstname, lastname } = req.body;
@@ -73,11 +95,29 @@ app.post('/newTicket', async (req, res) => {
     }
 });
 
+app.get('/:ticket_id', async (req, res) => {
+    const { ticket_id } = req.params;
+  
+    try {
+      // Dohvati podatke o ulaznici iz baze podataka
+      const result = await pool.query(
+        'SELECT vatin, firstname, lastname, createdat FROM tickets WHERE ticket_id = $1',
+        [ticket_id]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Ticket not found' });
+      }
+  
+      // Vrati podatke o ulaznici
+      res.json(result.rows[0]);
+    } catch (err) {
+      console.error('Error fetching ticket:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+
 app.listen(5000, () => {
     console.log('Server running on port 5000');
   });
-
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
