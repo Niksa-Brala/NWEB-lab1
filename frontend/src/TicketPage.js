@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Footer from './components/Footer';
+import TicketHeader from './components/TicketHeader';
 
 function TicketPage() {
   const { ticket_id } = useParams();  // Dohvati ticket_id iz URL-a
@@ -21,7 +23,7 @@ function TicketPage() {
   }, [ticket_id]);
 
   if (!ticketData) {
-    return <div>Loading ticket data...</div>;
+    return <div> ticket data...</div>;
   }
 
   // Funkcija za formatiranje timeStampa u DD/MM/YYYY HH:mm:ss
@@ -39,12 +41,20 @@ function TicketPage() {
 };
 
   return (
-    <div>
-      <h1>Informacije o ulaznici</h1>
-      <p><strong>OIB: </strong> {ticketData.vatin}</p>
-      <p><strong>Ime: </strong> {ticketData.firstname}</p>
-      <p><strong>Prezime: </strong> {ticketData.lastname}</p>
-      <p><strong>Vrijeme nastanka ulaznice: </strong> {formatDateTime(ticketData.createdat)}</p>
+    <div className="App">
+      <div className='header-container'>
+        <TicketHeader/>
+      </div>
+      <div className='body-container'>
+        <h1>Informacije o ulaznici</h1>
+        <p><strong>OIB: </strong> {ticketData.vatin}</p>
+        <p><strong>Ime: </strong> {ticketData.firstname}</p>
+        <p><strong>Prezime: </strong> {ticketData.lastname}</p>
+        <p><strong>Vrijeme nastanka ulaznice: </strong> {formatDateTime(ticketData.createdat)}</p>
+      </div>
+      <div className='footer-container'>
+        <Footer />
+      </div>
     </div>
   );
 }

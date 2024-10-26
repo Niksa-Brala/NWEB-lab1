@@ -6,7 +6,7 @@ const pool = new Pool({
   host: 'localhost',
   port: 5432,
   database: 'TicketGenerator',  
-  password: 'uedCh3V6',
+  password: 'postgres123',
 });
 
 module.exports = pool;

@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
     return(
         <div className="footer">
-            <h3>Warning: Web-Page Testing Phase</h3>
+            <h3>Požurite po ulaznicu!</h3>
         </div>
     )
 }

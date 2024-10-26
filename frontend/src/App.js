@@ -1,15 +1,16 @@
 import './App.css';
-import Nav from './components/Nav';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Footer from './components/Footer'
+import Header from './components/Header.js';
+import Footer from './components/Footer.js';
 import React, { useEffect, useState } from 'react';
-import TicketPage from './TicketPage'; // Komponenta za prikaz ulaznice
+import TicketPage from './TicketPage';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
 
   const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
+
     fetch('http://localhost:5000/') // Pozivaj backend API
       .then(response => {
         if (!response.ok) {
@@ -22,23 +23,23 @@ function App() {
         setTickets(data)
       })
       .catch(error => console.error('Error fetching tickets:', error));
+
   }, []);
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path='/' element={<h1>Total number of sold tickets<br/>{tickets}</h1>}/>
-          <Route path='/newTicket' element={<h1>New ticket</h1>}/>
-          <Route path='/login' element={<h1>Log in</h1>}/>
-          <Route path='/myTickets' element={<h1>My tickets</h1>}/>
-          <Route path="/:ticket_id" element={<TicketPage />} />
-        </Routes>
-      </BrowserRouter>
-      <Footer />
+      <div className='header-container'>
+        <Header/>
+      </div>
+      <div className='body-container'>
+        <h1>Ukupno prodano ulaznica<br/>{tickets}</h1>
+      </div>
+      <div className='footer-container'>
+        <Footer />
+      </div>
     </div>
   );
+
 }
 
 export default App;

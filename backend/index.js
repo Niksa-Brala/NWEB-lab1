@@ -3,11 +3,12 @@ const pool = require('./db');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const qrcode = require('qrcode');
-const dotenv = require('dotenv').config();
+const { auth, requiresAuth } = require('express-openid-connect');
 
 const app = express();
+
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 // Middleware to validate JWT token
 const authenticateToken = (req, res, next) => {
@@ -30,6 +31,18 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
+// Auth0 Configuration
+// const authConfig = {
+//     authRequired: false,   // Allow unauthenticated routes
+//     auth0Logout: true,
+//     secret: 'dlgkahreivurbwessssssssvuebwrvsssssssssssubweerilvbweriug',  // Use a secure secret key
+//     baseURL: 'http://localhost:3000',
+//     clientID: 'Gx8HEGozJXXO8TlJdU309q4VV6hadT4v',
+//     issuerBaseURL: 'https://dev-nn4nwq0trcxe4v3b.us.auth0.com'
+// };
+
+// app.use(auth(authConfig));
+  
 app.get("/", async (req, res) => {
     try {
         const result = await pool.query('select * from tickets');
@@ -41,7 +54,7 @@ app.get("/", async (req, res) => {
     }
 });
 
-// Kreiraj POST endpoint za dodavanje nove ulaznice
+// POST endpoint za dodavanje nove ulaznice
 app.post('/newTicket', authenticateToken, async (req, res) => {
     try {
         // Izvadi podatke iz tijela zahtjeva
@@ -95,6 +108,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
     }
 });
 
+// GET endpoint za pregled generirane ulaznice
 app.get('/:ticket_id', async (req, res) => {
     const { ticket_id } = req.params;
   
@@ -115,8 +129,7 @@ app.get('/:ticket_id', async (req, res) => {
       console.error('Error fetching ticket:', err);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
-  
+});
 
 app.listen(5000, () => {
     console.log('Server running on port 5000');
