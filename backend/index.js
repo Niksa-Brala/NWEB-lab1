@@ -8,7 +8,9 @@ const qrcode = require('qrcode');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.REACT_APP_API_URL,
+  }));
 app.use(express.json());
 
 // Middleware to validate JWT token
@@ -77,7 +79,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
         const ticketID = newTicket.rows[0].ticket_id;
 
         // Generiranje specifični URL ove nove ulaznice
-        const ticketURL = `http://localhost:3000/${ticketID}`;
+        const ticketURL = `${process.env.REACT_APP_API_URL}/${ticketID}`;
 
         // Generiranje QR koda na temelju URL-a
         const qrCodeDataURL = await qrcode.toDataURL(ticketURL);
