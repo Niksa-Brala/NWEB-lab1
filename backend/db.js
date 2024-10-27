@@ -1,4 +1,3 @@
-require('dotenv').config({ path: '../.gitignore/.env' });
 const { Pool } = require('pg');
 
 const pool = new Pool({
