@@ -2,8 +2,6 @@ import './App.css';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 import React, { useEffect, useState } from 'react';
-import TicketPage from './TicketPage';
-import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
 
@@ -11,7 +9,10 @@ function App() {
 
   useEffect(() => {
 
-    fetch('http://localhost:5000/') // Pozivaj backend API
+    // Use environment variable to handle different environments
+    const API_URL = process.env.REACT_APP_API_URL
+
+    fetch(`${API_URL}/`) // Pozivaj backend API
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

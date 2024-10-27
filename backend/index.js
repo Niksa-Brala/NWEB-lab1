@@ -8,6 +8,9 @@ const qrcode = require('qrcode');
 
 const app = express();
 
+// Use environment variable to handle different environments
+const API_URL = process.env.REACT_APP_API_URL;
+
 app.use(cors());
 app.use(express.json());
 
@@ -77,7 +80,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
         const ticketID = newTicket.rows[0].ticket_id;
 
         // Generiranje specifični URL ove nove ulaznice
-        const ticketURL = `http://localhost:3000/${ticketID}`;
+        const ticketURL = `${API_URL}/${ticketID}`;
 
         // Generiranje QR koda na temelju URL-a
         const qrCodeDataURL = await qrcode.toDataURL(ticketURL);
