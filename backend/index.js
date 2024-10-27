@@ -20,11 +20,11 @@ const authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     // If no token is provided, return an error
-    if (!token) return res.status(401).json({ error: 'Access token missing' });
+    if (!token) return res.status(401).json({ error: 'Error (status 401): Access token missing.' });
 
     // Verify the token
     jwt.verify(token, process.env.AUTH0_PUBLIC_KEY, { algorithms: ['RS256'] }, (err, user) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
+        if (err) return res.status(403).json({ error: 'Error (status 403): Invalid token.' });
         
         // Attach the decoded user to the request
         req.user = user;
@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
     }
     catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error');
+        res.status(500).send('Error (status 500): Server error.');
     }
 });
 
@@ -53,7 +53,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
         
         // Provjera jesu li svi potrebni podaci dostavljeni
         if (!vatin || !firstname || !lastname) {
-            return res.status(400).json({ error: "Greška! Molimo ispunite sva polja (vatin, firstname, lastname)." });
+            return res.status(400).json({ error: "Error (status 400): Please fill all the required fields (vatin, firstname, lastname)." });
         };
 
         // Provjera koliko ulaznica s tim OIB-om postoji
@@ -67,7 +67,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
 
         // Generiranje greške ako već postoje 3 ili više ulaznica s ovim OIB-om
         if (ticketsWithThisOIBCount >= 3) {
-            return res.status(400).json({ error: "Greška! Za navedeni su OIB već kupljene 3 ulaznice." });
+            return res.status(400).json({ error: "Error (status 400): Already 3 existing tickets with this vatin." });
         };
 
         // Kreiraj upit za unos nove ulaznice u bazu podataka
@@ -95,7 +95,7 @@ app.post('/newTicket', authenticateToken, async (req, res) => {
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Greška na serveru' });
+        res.status(500).json({ error: 'Error (status 500): Server error.' });
     }
 });
 
@@ -111,17 +111,17 @@ app.get('/:ticket_id', async (req, res) => {
       );
   
       if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'Ticket not found' });
+        return res.status(404).json({ error: 'Error (status 404): Ticket not found.' });
       }
   
       // Vrati podatke o ulaznici
       res.json(result.rows[0]);
     } catch (err) {
       console.error('Error fetching ticket:', err);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Error (status 500): Internal server error.' });
     }
 });
 
 app.listen(5000, () => {
-    console.log('Server running on port 5000');
+    console.log('Server running!');
   });
