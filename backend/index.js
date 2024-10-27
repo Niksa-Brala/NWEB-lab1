@@ -3,7 +3,6 @@ const pool = require('./db');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const qrcode = require('qrcode');
-const { auth, requiresAuth } = require('express-openid-connect');
 
 const app = express();
 
@@ -30,18 +29,6 @@ const authenticateToken = (req, res, next) => {
         next();
     });
 };
-
-// Auth0 Configuration
-// const authConfig = {
-//     authRequired: false,   // Allow unauthenticated routes
-//     auth0Logout: true,
-//     secret: 'dlgkahreivurbwessssssssvuebwrvsssssssssssubweerilvbweriug',  // Use a secure secret key
-//     baseURL: 'http://localhost:3000',
-//     clientID: 'Gx8HEGozJXXO8TlJdU309q4VV6hadT4v',
-//     issuerBaseURL: 'https://dev-nn4nwq0trcxe4v3b.us.auth0.com'
-// };
-
-// app.use(auth(authConfig));
   
 app.get("/", async (req, res) => {
     try {
