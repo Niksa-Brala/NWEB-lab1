@@ -11,7 +11,7 @@ function TicketPage() {
     // Funkcija za dohvaćanje podataka ulaznice
     const fetchTicketData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/${ticket_id}`);
+        const response = await fetch(`https://nweb-lab1.onrender.com/${ticket_id}`);
         const data = await response.json();
         setTicketData(data);
       } catch (error) {
