@@ -9,10 +9,7 @@ function App() {
 
   useEffect(() => {
 
-    // Use environment variable to handle different environments
-    const API_URL = process.env.REACT_APP_API_URL
-
-    fetch(`${API_URL}/`) // Pozivaj backend API
+    fetch('http://localhost:5000/') // Pozivaj backend API
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

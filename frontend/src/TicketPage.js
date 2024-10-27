@@ -8,14 +8,10 @@ function TicketPage() {
   const [ticketData, setTicketData] = useState(null);
 
   useEffect(() => {
-
-    // Use environment variable to handle different environments
-    const API_URL = process.env.REACT_APP_API_URL
-
     // Funkcija za dohvaćanje podataka ulaznice
     const fetchTicketData = async () => {
       try {
-        const response = await fetch(`${API_URL}/${ticket_id}`);
+        const response = await fetch(`http://localhost:5000/${ticket_id}`);
         const data = await response.json();
         setTicketData(data);
       } catch (error) {
