@@ -35,7 +35,7 @@ const authenticateToken = (req, res, next) => {
 app.get("/", async (req, res) => {
     try {
         const result = await pool.query('select * from tickets');
-        res.json(result.rows)
+        res.json(result.rowCount)
     }
     catch (err) {
         console.error(err.message);
